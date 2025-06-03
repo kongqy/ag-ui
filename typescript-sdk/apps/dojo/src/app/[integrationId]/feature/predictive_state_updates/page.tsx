@@ -7,16 +7,25 @@ import MarkdownIt from "markdown-it";
 import { diffWords } from "diff";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CopilotKit, useCoAgent, useCopilotAction, useCopilotChat } from "@copilotkit/react-core";
 import { CopilotSidebar } from "@copilotkit/react-ui";
 
 const extensions = [StarterKit];
 
-export default function PredictiveStateUpdates() {
+interface AgenticChatProps {
+  params: Promise<{
+    integrationId: string;
+  }>;
+}
+
+
+export default function PredictiveStateUpdates({ params }: AgenticChatProps) {
+  const { integrationId } = React.use(params);
+
   return (
     <CopilotKit
-      runtimeUrl="/api/copilotkit"
+      runtimeUrl={`/api/copilotkit/${integrationId}`}
       showDevConsole={false}
       // agent lock to the relevant agent
       agent="predictive_state_updates"
@@ -66,7 +75,7 @@ const DocumentEditor = () => {
     setState: setAgentState,
     nodeName,
   } = useCoAgent<AgentState>({
-    name: "predictiveStateUpdatesAgent",
+    name: "predictive_state_updates",
     initialState: {
       document: "",
     },
