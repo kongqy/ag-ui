@@ -4,6 +4,7 @@ import { MastraClient } from "@mastra/client-js";
 import { MastraAgent } from "@ag-ui/mastra";
 import { VercelAISDKAgent } from "@ag-ui/vercel-ai-sdk";
 import { openai } from "@ai-sdk/openai";
+import { LangGraphAgent } from "@ag-ui/langgraph";
 
 export const agentsIntegrations: AgentIntegrationConfig[] = [
   {
@@ -34,4 +35,17 @@ export const agentsIntegrations: AgentIntegrationConfig[] = [
       };
     },
   },
+  {
+    id: 'langgraph',
+    agents: async () => {
+      return {
+        agentic_chat: new LangGraphAgent({ deploymentUrl: 'http://localhost:2024', graphId: 'agentic_chat' }),
+        agentic_generative_ui: new LangGraphAgent({ deploymentUrl: 'http://localhost:2024', graphId: 'agentic_generative_ui' }),
+        human_in_the_loop: new LangGraphAgent({ deploymentUrl: 'http://localhost:2024', graphId: 'human_in_the_loop' }),
+        predictive_state_updates: new LangGraphAgent({ deploymentUrl: 'http://localhost:2024', graphId: 'predictive_state_updates' }),
+        shared_state: new LangGraphAgent({ deploymentUrl: 'http://localhost:2024', graphId: 'shared_state' }),
+        tool_based_generative_ui: new LangGraphAgent({ deploymentUrl: 'http://localhost:2024', graphId: 'tool_based_generative_ui' }),
+      };
+    },
+  }
 ];
